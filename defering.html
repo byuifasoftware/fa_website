@@ -1,0 +1,252 @@
+<p>
+<script type="text/javascript">// <![CDATA[
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40754833-1', 'byui.edu');
+  ga('send', 'pageview');
+// ]]></script>
+</p>
+<p>
+<script language="javascript" type="text/javascript">// <![CDATA[
+var fa_slideSpeed = 15;	// Higher value = faster
+var fa_timer = 2;	// Lower value = faster
+
+var objectIdToSlideDown = false;
+var fa_activeId = false;
+var fa_slideInProgress = false;
+var fa_slideInProgress = false;
+var fa_expandMultiple = false; // true if you want to be able to have multiple items expanded at the same time.
+
+function showHideContent(e,inputId)
+{
+	if(fa_slideInProgress)return;
+	fa_slideInProgress = true;
+	if(!inputId)inputId = this.id;
+	inputId = inputId + '';
+	var numericId = inputId.replace(/[^0-9]/g,'');
+	var answerDiv = document.getElementById('fa_a' + numericId);
+
+	objectIdToSlideDown = false;
+
+	if(!answerDiv.style.display || answerDiv.style.display=='none'){
+		if(fa_activeId &&  fa_activeId!=numericId && !fa_expandMultiple){
+			objectIdToSlideDown = numericId;
+			slideContent(fa_activeId,(fa_slideSpeed*-1));
+		}else{
+
+			answerDiv.style.display='block';
+			answerDiv.style.visibility = 'visible';
+
+			slideContent(numericId,fa_slideSpeed);
+		}
+	}else{
+		slideContent(numericId,(fa_slideSpeed*-1));
+		fa_activeId = false;
+	}
+}
+
+function slideContent(inputId,direction)
+{
+
+	var obj =document.getElementById('fa_a' + inputId);
+	var contentObj = document.getElementById('fa_ac' + inputId);
+	height = obj.clientHeight;
+	if(height==0)height = obj.offsetHeight;
+	height = height + direction;
+	rerunFunction = true;
+	if(height>contentObj.offsetHeight){
+		height = contentObj.offsetHeight;
+		rerunFunction = false;
+	}
+	if(height<=1){
+		height = 1;
+		rerunFunction = false;
+	}
+
+	obj.style.height = height + 'px';
+	var topPos = height - contentObj.offsetHeight;
+	if(topPos>0)topPos=0;
+	contentObj.style.top = topPos + 'px';
+	if(rerunFunction){
+		setTimeout('slideContent(' + inputId + ',' + direction + ')',fa_timer);
+	}else{
+		if(height<=1){
+			obj.style.display='none';
+			if(objectIdToSlideDown && objectIdToSlideDown!=inputId){
+				document.getElementById('fa_a' + objectIdToSlideDown).style.display='block';
+				document.getElementById('fa_a' + objectIdToSlideDown).style.visibility='visible';
+				slideContent(objectIdToSlideDown,fa_slideSpeed);
+			}else{
+				fa_slideInProgress = false;
+			}
+		}else{
+			fa_activeId = inputId;
+			fa_slideInProgress = false;
+		}
+	}
+}
+
+
+
+function initShowHideDivs()
+{
+	var divs = document.getElementsByTagName('DIV');
+	var divCounter = 1;
+	for(var no=0;no<divs.length;no++){
+		if(divs[no].className=='fa_question'){
+			divs[no].onclick = showHideContent;
+			divs[no].id = 'fa_q'+divCounter;
+			var answer = divs[no].nextSibling;
+			while(answer && answer.tagName!='DIV'){
+				answer = answer.nextSibling;
+			}
+			answer.id = 'fa_a'+divCounter;
+			contentDiv = answer.getElementsByTagName('DIV')[0];
+			contentDiv.style.top = 0 - contentDiv.offsetHeight + 'px';
+			contentDiv.className='fa_answer_content';
+			contentDiv.id = 'fa_ac' + divCounter;
+			answer.style.display='none';
+			answer.style.height='1px';
+			divCounter++;
+		}
+	}
+}
+window.onload = initShowHideDivs;
+// ]]></script>
+</p>
+<style type="text/css"><!--
+/* CSS styles for the Show/Hide functionality. */
+
+.fa_question{
+        overflow:hidden;
+	cursor:pointer;
+        background-color: #f0f0f0;
+        color: #666;
+        padding: 10px;
+        border: 1px solid #000;
+        -webkit-transition:all .5s ease;
+	-moz-transition:all .5s ease;
+}
+.fa_question:hover{
+        background-color: #fcc35a;
+}
+.fa_answer{
+        visibility:hidden;
+	height:0px;
+	overflow:hidden;
+	position:relative;
+}
+.fa_answer_content{	/* Content that is slided down */
+        margin-top: 10px;
+	padding:1px;
+	font-size:1em;
+	position:relative;
+}
+
+.h1 {font-family: futura, arial, sans-serif; font-size: 2em; color: #000}
+.h2 {font-family: futura, arial, sans-serif; font-size: 1.75em; color: #000;}
+.h3 {font-family: futura, arial, sans-serif; font-size: 1.5em; color: #000;}
+.h4 {font-family: futura, arial, sans-serif; font-size: 1.3em; margin-left: 15px;}
+.h5 {font-family: futura, arial, sans-serif; font-size: 1em; margin-left: 12px;}
+
+#table_futura th{
+     color:#F8F8F8;
+     background-color: #333;   
+     font-family: futura, arial, sans-serif;
+     font-size: medium;
+     font-weight: normal;
+}
+#table_futura ul{
+     margin-left: 5px;
+}
+#table_futura td{
+     color:#000;
+}
+ul {margin-left:30px;}
+--></style>
+<p><br /><span style="font-size: 2.5em; font-family: futura, arial, sans-serif;">Deferring Financial Aid</span><br /><br /></p>
+<p>Students who intend on deferring a semester(s) for LDS Mission, Medical/Health, or Continuing Education Student reasons, need to consider the conditions for each of their awards as listed below.</p>
+<p>**All students who plan to go on a mission in the near future <strong>must contact Admissions to get a Missionary Deferment Application</strong>**</p>
+    
+    
+    <div class="fa_question"><span class="h2"><strong>IF</strong> you are a continuing student but planning to serve a mission...</span><br /><small>Click here to learn how to properly defer financial aid you have already been awarded.</small></div>
+    
+    <div class="fa_answer">
+    
+        <div>
+            <ul> 
+                <ul>
+                    <li>...and you have previously taken out loans, you will need to contact your lender to discuss payment options while you are on your mission. To contact them, go to <a href="http://www.nslds.ed.gov/nslds_SA/" title="Link to National Student Loan Database Services">nslds.ed.gov</a>.</li>
+                </ul>
+            </ul>
+            
+            <br />
+            
+            <ul>
+                <ul>
+                    <li>...and you have loans and/or Pell grant during a semester you will be deferring, that aid will not be deferrable. When you return from your mission, you must fill out a new FAFSA for that academic school year.</li>
+                </ul>
+            </ul>
+            
+            <br />
+            
+            <ul> 
+                <ul>
+                    <li>...and you have a scholarship and will be deferring before using the second semester of it, you will receive that portion of the award when you return from your mission. To receive this deferred portion you must complete the BYU-Idaho Scholarship Application when you return.</li>
+                </ul>
+            </ul>
+            
+            <br />
+            <ul>
+                <li>...when you return from your mission, you will need to fill out the Scholarship Application for that academic school year to be considered for any university scholarships offered that year.</li>
+            </ul>
+        </div>
+    </div>
+<p></p>
+    <div class="fa_question"><span class="h2"><strong>IF</strong> you have recently been admitted but are planning to serve a mission before you attend</span><br /><small>Click here
+                to learn how to properly defer financial aid you were awarded.</small></div>
+        <div class="fa_answer">
+            <div>
+                <ul>
+                    <ul>
+                        <li>...and you have received government aid from filling out the FAFSA, these awards will no longer be available when you return. You will need to fill out a current FAFSA for the correct academic school year when you return from your mission.</li>
+                    </ul>
+                </ul>
+                
+                <br />
+                
+                <ul>
+                    <ul>
+                        <li>...and you have been awarded a scholarship, you will be able to receive both semesters of that award when you return from your mission. In order to receive this deferred portion you must complete the BYU-Idaho Scholarship Application when you return.</li>
+                    </ul>
+                </ul>
+                
+                <br />
+                
+                <ul>  
+                    <li>...when you return from your mission, you will need to fill out the Scholarship Application for that academic school year to be considered for any university scholarships offered that year.</li>
+                </ul>
+            </div>
+        </div>
+<p></p>
+    <div class="fa_question"><span class="h2">All Other Deferrments</span><br /><small>Click here to learn more about the conditions with each type of financial aid and how to defer properly.</small></div>
+        <div class="fa_answer">
+            <div>
+            <p>If you are filling out one of the following deferments</p>
+            <ul>
+                <li>Continuing Student Deferment</li>
+                <li>Medical Deferment</li>
+                <li>Spouse of Intern Deferment</li>
+            </ul>
+            <p>...and have not gotten your deferment form approved yet. Go to the Admissions office and pick up the correct deferment form. Bring it to both the Bursar's Office and the Student Financial Aid Office to have us defer your financial aid.<br />
+                <br /> ...and have previously taken out loans, you will need to make sure to check that you won't be out of school for longer than your 6 month grace period. If a student is out of school for longer than 6 months at a time they are required to begin repaying their loans. For further details on your specific loans and grace period, log in to <a href="http://www.nslds.ed.gov">www.nslds.ed.gov</a> and check on your loans.<br />
+                <br />...and have been awarded Pell Grants and Scholarships. These financial aid awards won't be given to you because you will not be taking the required credit hours to receive them.
+            </p>
+            <strong>Make sure during the track you are deferring that you are constantly checking your email and finances tab to check for updates to your financial aid options. Especially do this to make sure that you are turning all documents in before their deadlines.</strong>
+            <hr>
+            <br>
+            </div>
+        </div>

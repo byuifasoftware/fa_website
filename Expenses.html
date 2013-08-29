@@ -1,0 +1,219 @@
+<p>
+<script type="text/javascript">// <![CDATA[
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40754833-1', 'byui.edu');
+  ga('send', 'pageview');
+// ]]></script>
+</p>
+<p>
+<script language="javascript" type="text/javascript">// <![CDATA[
+var fa_slideSpeed = 15;	// Higher value = faster
+var fa_timer = 2;	// Lower value = faster
+
+var objectIdToSlideDown = false;
+var fa_activeId = false;
+var fa_slideInProgress = false;
+var fa_slideInProgress = false;
+var fa_expandMultiple = false; // true if you want to be able to have multiple items expanded at the same time.
+
+function showHideContent(e,inputId)
+{
+	if(fa_slideInProgress)return;
+	fa_slideInProgress = true;
+	if(!inputId)inputId = this.id;
+	inputId = inputId + '';
+	var numericId = inputId.replace(/[^0-9]/g,'');
+	var answerDiv = document.getElementById('fa_a' + numericId);
+
+	objectIdToSlideDown = false;
+
+	if(!answerDiv.style.display || answerDiv.style.display=='none'){
+		if(fa_activeId &&  fa_activeId!=numericId && !fa_expandMultiple){
+			objectIdToSlideDown = numericId;
+			slideContent(fa_activeId,(fa_slideSpeed*-1));
+		}else{
+
+			answerDiv.style.display='block';
+			answerDiv.style.visibility = 'visible';
+
+			slideContent(numericId,fa_slideSpeed);
+		}
+	}else{
+		slideContent(numericId,(fa_slideSpeed*-1));
+		fa_activeId = false;
+	}
+}
+
+function slideContent(inputId,direction)
+{
+
+	var obj =document.getElementById('fa_a' + inputId);
+	var contentObj = document.getElementById('fa_ac' + inputId);
+	height = obj.clientHeight;
+	if(height==0)height = obj.offsetHeight;
+	height = height + direction;
+	rerunFunction = true;
+	if(height>contentObj.offsetHeight){
+		height = contentObj.offsetHeight;
+		rerunFunction = false;
+	}
+	if(height<=1){
+		height = 1;
+		rerunFunction = false;
+	}
+
+	obj.style.height = height + 'px';
+	var topPos = height - contentObj.offsetHeight;
+	if(topPos>0)topPos=0;
+	contentObj.style.top = topPos + 'px';
+	if(rerunFunction){
+		setTimeout('slideContent(' + inputId + ',' + direction + ')',fa_timer);
+	}else{
+		if(height<=1){
+			obj.style.display='none';
+			if(objectIdToSlideDown && objectIdToSlideDown!=inputId){
+				document.getElementById('fa_a' + objectIdToSlideDown).style.display='block';
+				document.getElementById('fa_a' + objectIdToSlideDown).style.visibility='visible';
+				slideContent(objectIdToSlideDown,fa_slideSpeed);
+			}else{
+				fa_slideInProgress = false;
+			}
+		}else{
+			fa_activeId = inputId;
+			fa_slideInProgress = false;
+		}
+	}
+}
+
+
+
+function initShowHideDivs()
+{
+	var divs = document.getElementsByTagName('DIV');
+	var divCounter = 1;
+	for(var no=0;no<divs.length;no++){
+		if(divs[no].className=='fa_question'){
+			divs[no].onclick = showHideContent;
+			divs[no].id = 'fa_q'+divCounter;
+			var answer = divs[no].nextSibling;
+			while(answer && answer.tagName!='DIV'){
+				answer = answer.nextSibling;
+			}
+			answer.id = 'fa_a'+divCounter;
+			contentDiv = answer.getElementsByTagName('DIV')[0];
+			contentDiv.style.top = 0 - contentDiv.offsetHeight + 'px';
+			contentDiv.className='fa_answer_content';
+			contentDiv.id = 'fa_ac' + divCounter;
+			answer.style.display='none';
+			answer.style.height='1px';
+			divCounter++;
+		}
+	}
+}
+window.onload = initShowHideDivs;
+// ]]></script>
+</p>
+<style type="text/css"><!--
+/* CSS styles for the Show/Hide functionality. */
+
+.fa_question{
+        overflow:hidden;
+	cursor:pointer;
+        background-color: #f0f0f0;
+        color: #666;
+        padding: 10px;
+        border: 1px solid #000;
+        -webkit-transition:all .5s ease;
+	-moz-transition:all .5s ease;
+}
+.fa_question:hover{
+        background-color: #fcc35a;
+}
+.fa_answer{
+        visibility:hidden;
+	height:0px;
+	overflow:hidden;
+	position:relative;
+}
+.fa_answer_content{	/* Content that is slided down */
+        margin-top: 10px;
+	padding:1px;
+	font-size:1em;
+	position:relative;
+}
+
+.h1 {font-family: futura, arial, sans-serif; font-size: 2em; color: #000}
+.h2 {font-family: futura, arial, sans-serif; font-size: 1.75em; color: #000;}
+.h3 {font-family: futura, arial, sans-serif; font-size: 1.5em; color: #000;}
+.h4 {font-family: futura, arial, sans-serif; font-size: 1.3em; margin-left: 15px;}
+.h5 {font-family: futura, arial, sans-serif; font-size: 1em; margin-left: 12px;}
+
+#table_futura th{
+     color:#F8F8F8;
+     background-color: #333;   
+     font-family: futura, arial, sans-serif;
+     font-size: medium;
+     font-weight: normal;
+}
+#table_futura ul{
+     margin-left: 5px;
+}
+#table_futura td{
+     color:#000;
+}
+ul {margin-left:30px;}
+
+.my_container{ margin-top: -20px; }
+
+--></style>
+<div class=my_container>
+<p><img height="20" src="Images/Admin_Offices/Financial%20Aid/buttons/new-Buttons/blank.png" width="5" />
+	<a href="x69603.xml"><img height="101" onmouseout="this.src='Images/Admin_Offices/Financial%20Aid/buttons/new-Buttons/planning_ahead/resources.png';" onmouseover="this.src='Images/Admin_Offices/Financial%20Aid/buttons/new-Buttons/planning_ahead/hover_resources.png';" src="Images/Admin_Offices/Financial%20Aid/buttons/new-Buttons/planning_ahead/resources.png" width="170" /></a>
+	<a href="x69605.xml"><img height="101" onmouseout="this.src='Images/Admin_Offices/Financial Aid/buttons/new-Buttons/planning_ahead/expenses.png';" onmouseover="this.src='Images/Admin_Offices/Financial Aid/buttons/new-Buttons/planning_ahead/hover_expenses.png';" src="Images/Admin_Offices/Financial%20Aid/buttons/new-Buttons/planning_ahead/expenses.png" width="170" /></a>
+	<a href="x69606.xml"><img height="101" onmouseout="this.src='Images/Admin_Offices/Financial Aid/buttons/new-Buttons/planning_ahead/budgeting.png';" onmouseover="this.src='Images/Admin_Offices/Financial Aid/buttons/new-Buttons/planning_ahead/hover_budgeting.png';" src="Images/Admin_Offices/Financial%20Aid/buttons/new-Buttons/planning_ahead/budgeting.png" width="170" /></a>
+	<a href="x69607.xml"><img height="101" onmouseout="this.src='Images/Admin_Offices/Financial Aid/buttons/new-Buttons/planning_ahead/loans.png';" onmouseover="this.src='Images/Admin_Offices/Financial Aid/buttons/new-Buttons/planning_ahead/hover_loans.png';" src="Images/Admin_Offices/Financial%20Aid/buttons/new-Buttons/planning_ahead/loans.png" width="170" /></a></p>
+<p>The following boxes provide a list of expenses to consider as you prepare to pay for your college education.</p>
+
+<div class="fa_question"><span class="h4">Educational Expenses</span></div>
+    <div class="fa_answer">
+        <div>
+            <strong>Listed below are few of the expenses to consider:</strong>
+            <hr>
+            <ul>
+                <li><a href=http://www.byui.edu/admissions/costs>School Tuition</a></li>
+                <li>Books</li>
+                <li>School Supplies</li>
+                <li><a href=http://www.byui.edu/housing>Housing</a></li>
+                <li><a href=http://www.byui.edu/health-center>Insurance</a></li>
+                <li><a href=http://www.byui.edu/food-services/prices-and-plans>Food</a></li>
+            </ul>
+	</div>
+    </div>
+</div>
+
+<div class="fa_question"><span class="h4">Other Expenses</span></div>
+	<div class="fa_answer">
+	    <div>
+                <strong>Listed below are a few other expenses to consider:</strong>
+                <ul>
+                    <li>Transportation</li>
+                    <li>Clothing</li>
+                    <li>Cell Phone</li>
+                    <li>Entertainment</li>
+                    <li>Savings</li>
+                    <li>Other</li>
+                </ul>
+                
+                <p>For further information regarding ways to cut back in expenses check out the article 
+                    <a href=http://www.scholarships.com/resources/parents-practical-guide-to-college/parents-guide-to-college-preparation/what-your-child-will-need-on-campus>
+                       What Your Child Will Need on Campus </a>
+                    and <a href=http://www.nolo.com/legal-encyclopedia/making-budget-college-29734.html> Making a Budget for College </a>
+                </p>
+            <hr>
+        </div>
+    </div>
+</div>
